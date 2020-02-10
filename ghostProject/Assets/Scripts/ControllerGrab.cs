@@ -54,7 +54,7 @@ public class ControllerGrab : MonoBehaviour
         objectInHand = collidingObject;
         collidingObject = null;
         
-        var joint = AddFixedJoint();
+        FixedJoint joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
     }
 
@@ -84,7 +84,7 @@ public class ControllerGrab : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (GetGrab())
         {
@@ -106,5 +106,7 @@ public class ControllerGrab : MonoBehaviour
                 ReleaseObject();
             }
         }
+    
+    
     }
 }
