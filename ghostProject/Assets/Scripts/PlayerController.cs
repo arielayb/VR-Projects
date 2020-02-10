@@ -90,29 +90,24 @@ public class PlayerController : MonoBehaviour
         if (move.GetLastStateDown(handType))
         {
             DpadNorthDown();
-        }
-
-        if (move.GetLastStateUp(handType))
+        }else if(move.GetLastStateUp(handType))
         {
             DpadNorthUp();
         }
 
-        if (rotateRight.GetLastStateUp(handType))
+        if (rotateRight.GetLastStateDown(handType))
         {
             DpadEastDown();
-        }
-
-        if (rotateRight.GetLastStateUp(handType))
+        }else if(rotateRight.GetLastStateUp(handType))
         {
             DpadEastUp();
         }
 
-        if (rotateLeft.GetLastStateUp(handType))
+        if (rotateLeft.GetLastStateDown(handType))
         {
             DpadWestDown();
         }
-
-        if (rotateLeft.GetLastStateUp(handType))
+        else if (rotateLeft.GetLastStateUp(handType))
         {
             DpadWestUp();
         }
