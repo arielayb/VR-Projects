@@ -5,7 +5,9 @@ using Valve.VR;
 
 public class PlayerController : MonoBehaviour
 {
-    public SteamVR_Input_Sources handType; 
+    public SteamVR_Input_Sources handType;
+    public SteamVR_Input_Sources handType2; 
+
     public SteamVR_Action_Boolean move;
     public SteamVR_Action_Boolean rotateRight;
     public SteamVR_Action_Boolean rotateLeft;
@@ -13,10 +15,30 @@ public class PlayerController : MonoBehaviour
 
     public GameObject player;
     public GameObject playerCamera;
+    
     private float _playerSpeed;
+    private float _playerJumpSpeed;
+    
     private Vector3 _playerPosition;
+    private Vector3 _playerJumpPosition;
+
     private float _playerRotation;
     private float _playerRotationSpeed;
+
+    public bool JumpBtnUp() 
+    {
+        Debug.Log("Jumped!");
+        _playerJumpSpeed = 0.0f;
+        return jumpAction.GetState(handType2);
+    }
+
+    public bool JumpBtnDown()
+    {
+        Debug.Log("Jumping!");
+        Jump();
+        return jumpAction.GetState(handType2);
+
+    }
 
     public bool DpadNorthUp()
     {
@@ -67,6 +89,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void Jump() {
+        _playerJumpSpeed = 3.0f;
+        _playerJumpPosition = new Vector3(0.0f, 5.0f, 0.0f);
+    
+    }
+
     public void Movement() {
         _playerSpeed = 2.0f;
         _playerRotationSpeed = 1.0f;
@@ -112,8 +140,18 @@ public class PlayerController : MonoBehaviour
             DpadWestUp();
         }
 
+        if (jumpAction.GetLastStateDown(handType2))
+        {
+            JumpBtnDown();
+        }
+        else if (jumpAction.GetLastStateUp(handType2))
+        {
+            JumpBtnUp();
+        }
+
         _playerRotation = playerCamera.transform.localRotation.y;
         player.GetComponent<Rigidbody>().transform.Rotate(0.0f, _playerRotation * _playerRotationSpeed, 0.0f);
         player.GetComponent<Rigidbody>().transform.Translate(_playerPosition * _playerSpeed * Time.deltaTime);
+        player.GetComponent<Rigidbody>().transform.Translate(_playerJumpPosition * _playerJumpSpeed * Time.deltaTime);
     }
 }
